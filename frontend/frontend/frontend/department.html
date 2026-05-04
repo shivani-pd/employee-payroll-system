@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>PayrollPro | Departments</title>
+    <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+
+<div class="app">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="logo">
+            <span>💼</span>
+            <h2>PayrollPro</h2>
+            <p>Management System</p>
+        </div>
+
+        <nav class="menu">
+            <a href="dashboard.html">📊 Dashboard</a>
+            <a href="employees.html">👥 Employees</a>
+            <a href="payroll.html">💰 Payroll</a>
+            <a href="departments.html" class="active">🏢 Departments</a>
+            <a href="reports.html">📑 Reports</a>
+            <a href="documents.html">📁 Documents</a>
+            <a href="settings.html">⚙ Settings</a>
+        </nav>
+
+        <div class="user">
+            <div class="avatar">SP</div>
+            <div>
+                <h4>Shivani</h4>
+                <span>HR Manager</span>
+            </div>
+        </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main">
+
+        <!-- TOPBAR -->
+        <div class="topbar">
+            <div>
+                <h1>Departments</h1>
+                <p>Cost centers, workforce & budget utilization</p>
+            </div>
+
+            <div class="actions">
+                <select class="period-select" id="locationFilter">
+    <option value="ALL">All Locations</option>
+    <option value="Head Office">Head Office</option>
+    <option value="Remote">Remote</option>
+</select>
+
+                <button class="btn" id="exportDeptBtn">📄 Export</button>
+
+                <button class="btn primary" id="addDeptBtn">➕ Add Department</button>
+
+            </div>
+        </div>
+
+        
+
+        <!-- KPI CARDS -->
+        <section class="stats">
+            <div class="card"> 🏢 Departments<br><strong id="deptCount">0</strong></div>
+            <div class="card">👥 Employees<br><strong id="empCount">0</strong></div>
+
+            <div class="card">💰 Annual Payroll<br><strong id="payrollTotal">₹0</strong></div>
+
+            <div class="card">⚠ Budget Alerts<br><strong id="alertCount">0</strong></div>
+
+        </section>
+
+        <!-- DEPARTMENT GRID -->
+        <section class="department-grid" id="departmentGrid">
+
+        </section>
+
+        <!-- INSIGHTS -->
+        <section class="advanced-grid">
+
+    <div class="card">
+        <h3>📊 Cost Center Insights</h3>
+        <ul id="costCenterList">
+            <li>Loading...</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h3>👥 Workforce Distribution</h3>
+        <ul id="workforceList">
+            <li>Loading...</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h3>⚖ Compliance Status</h3>
+        <ul id="complianceList">
+            <li>Loading...</li>
+        </ul>
+    </div>
+
+</section>
+
+
+
+        <div id="deptModal" class="modal hidden">
+  <div class="modal-card">
+
+    <input type="hidden" id="deptId">
+
+    <h2 id="modalTitle">Add Department</h2>
+
+    <div class="form-group">
+      <label>Department Name</label>
+      <input type="text" id="deptName" placeholder="e.g. Engineering">
+    </div>
+
+    <div class="form-group">
+      <label>Manager Name</label>
+      <input type="text" id="deptManager" placeholder="e.g. Mansi Jain">
+    </div>
+
+    <div class="form-group">
+      <label>Annual Budget</label>
+      <input type="number" id="deptBudget" placeholder="e.g. 1500000">
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn primary" id="saveDeptBtn">Save</button>
+      <button class="btn ghost" id="cancelDeptBtn">Cancel</button>
+    </div>
+
+  </div>
+</div>
+
+<div id="teamModal" class="modal hidden">
+  <div class="modal-card">
+    <h2 id="teamTitle">Team</h2>
+    <ul id="teamList"></ul>
+
+    <div class="modal-actions">
+      <button class="btn ghost" id="closeTeamBtn">Close</button>
+    </div>
+  </div>
+</div>
+
+
+
+    </main>
+</div>
+
+<div id="teamModal" class="modal hidden">
+  <div class="modal-card">
+    <h2 id="teamTitle">Team</h2>
+    <ul id="teamList"></ul>
+
+    <div class="modal-actions">
+      <button class="btn ghost" id="closeTeamBtn">Close</button>
+    </div>
+  </div>
+</div>
+
+
+<script src="js/departments.js"></script>
+
+
+</body>
+</html>
