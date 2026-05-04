@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>PayrollPro | Documents</title>
+<link rel="stylesheet" href="css/app.css">
+</head>
+
+<body>
+<div class="app">
+
+<!-- ================= SIDEBAR (UNCHANGED) ================= -->
+<aside class="sidebar">
+    <div class="logo">
+        <span>💼</span>
+        <h2>PayrollPro</h2>
+        <p>Management System</p>
+    </div>
+
+    <nav class="menu">
+        <a href="dashboard.html">📊 Dashboard</a>
+        <a href="employees.html">👥 Employees</a>
+        <a href="payroll.html">💰 Payroll</a>
+        <a href="departments.html">🏢 Departments</a>
+        <a href="reports.html">📑 Reports</a>
+        <a href="documents.html" class="active">📁 Documents</a>
+        <a href="settings.html">⚙ Settings</a>
+    </nav>
+
+    <div class="user">
+        <div class="avatar">SP</div>
+        <div>
+            <h4>Shivani</h4>
+            <span>HR Manager</span>
+        </div>
+    </div>
+</aside>
+
+<!-- ================= MAIN ================= -->
+<main class="main">
+
+<!-- ===== HEADER / ACTION BAR ===== -->
+<div class="workspace-header">
+    <div>
+        <h1>Documents</h1>
+        <p>Centralized payroll & HR document repository</p>
+    </div>
+
+    <div class="workspace-actions">
+        <select id="docFilter">
+            <option>All Categories</option>
+            <option>Payslips</option>
+            <option>Tax Documents</option>
+            <option>Contracts</option>
+            <option>Reimbursements</option>
+        </select>
+
+        <button class="btn" onclick="exportDocuments()">⬇ Export</button>
+        <button class="btn primary" onclick="openUploadModal()">⬆ Upload</button>
+    </div>
+</div>
+
+<!-- ===== KPI STRIP ===== -->
+<section class="kpi-strip">
+
+<div class="kpi clickable-card" data-filter="All Categories">
+    <span>Total Files</span>
+    <strong id="kpi-total-value">0</strong>
+</div>
+
+<div class="kpi clickable-card" data-filter="Payslips">
+    <span>Payslips</span>
+    <strong id="kpi-payslip-value">0</strong>
+</div>
+
+<div class="kpi clickable-card" data-filter="Tax Documents">
+    <span>Tax Docs</span>
+    <strong id="kpi-tax-value">0</strong>
+</div>
+
+<div class="kpi clickable-card" data-filter="Contracts">
+    <span>Contracts</span>
+    <strong id="kpi-contract-value">0</strong>
+</div>
+
+</section>
+
+<!-- ===== CATEGORY CARDS ===== -->
+<section class="doc-category-grid">
+
+<div class="doc-card">
+<h3>📄 Payslips</h3>
+<p>Monthly employee salary slips</p>
+<small id="payslip-updated">Updated just now</small>
+</div>
+
+<div class="doc-card">
+<h3>📊 Tax Documents</h3>
+<p>Compliance & statutory records</p>
+<small id="tax-updated">Updated just now</small>
+</div>
+
+<div class="doc-card">
+<h3>📁 Contracts</h3>
+<p>Employment agreements & NDAs</p>
+<small id="contract-updated">Updated just now</small>
+</div>
+
+<div class="doc-card">
+<h3>🧾 Reimbursements</h3>
+<p>Expense & claim files</p>
+<small id="reimburse-updated">Updated just now</small>
+</div>
+
+</section>
+
+<!-- ===== DOCUMENT WORKSPACE ===== -->
+<section class="document-workspace">
+
+<!-- SUMMARY -->
+<div class="card workspace-panel">
+<h3>Employee Document Summary</h3>
+
+
+<div class="summary-scroll">
+
+<table class="doc-summary-table">
+<thead>
+<tr>
+<th>Employee</th>
+<th>Payslips</th>
+<th>Contracts</th>
+<th>Tax Docs</th>
+<th>Reimbursements</th>
+</tr>
+</thead>
+<tbody id="documentSummaryBody"></tbody>
+</table>
+</div>
+</div>
+
+<!-- MAIN TABLE -->
+<div class="card workspace-panel main-doc-panel">
+
+<div class="table-header">
+
+    <h3>All Documents</h3>
+
+    <div class="table-tools">
+        <input id="docSearch"
+               type="text"
+               placeholder="Search documents or employee...">
+        <span id="doc-count">(0 total)</span>
+    </div>
+
+</div>
+<div class="table-scroll">
+<table class="doc-table">
+<thead>
+<tr>
+<th>ID</th>
+<th>Name</th>
+<th>Type</th>
+<th>Employee</th>
+<th>Date</th>
+<th>Action</th>
+</tr>
+</thead>
+
+<tbody id="documentTableBody"></tbody>
+
+</table>
+</div>
+
+</div>
+
+</section>
+
+</main>
+</div>
+<!-- ================= UPLOAD MODAL ================= -->
+<div id="uploadModal" class="modal" style="display:none;">
+
+    <div class="modal-content upload-glass">
+
+        <h2>Upload Document</h2>
+        <p class="modal-subtitle">
+            Securely upload payroll or HR documents
+        </p>
+
+        <!-- Document Name -->
+        <label>Document Name</label>
+        <input type="text" id="docName" placeholder="e.g. Salary Slip - Jan 2026">
+
+        <!-- Category -->
+        <label>Document Category</label>
+        <select id="docCategory">
+            <option value="Payslip">Payslip</option>
+            <option value="Tax">Tax Document</option>
+            <option value="Contract">Contract</option>
+            <option value="Reimbursement">Reimbursement</option>
+        </select>
+
+        <!-- Employee -->
+        <label>Employee ID</label>
+        <input type="number" id="employeeId" placeholder="Employee ID">
+
+        <!-- FILE PICKER -->
+        <label>Choose File</label>
+        <input type="file" id="docFile">
+
+        <div class="modal-actions">
+            <button class="btn primary" onclick="saveDocument()">Upload</button>
+            <button class="btn" onclick="closeUploadModal()">Cancel</button>
+        </div>
+
+    </div>
+</div>
+<script src="js/global-settings.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="js/document.js?v=7"></script>
+<input type="file" id="hiddenUploader" style="display:none" />
+<!-- ================= DOCUMENT PREVIEW MODAL ================= -->
+<!-- ================= ENTERPRISE DOCUMENT PREVIEW ================= -->
+<div id="previewModal" class="preview-modal">
+
+    <div class="preview-content">
+
+        <!-- HEADER -->
+        <div class="preview-header">
+            <h3 id="previewTitle">Document Preview</h3>
+
+            <div class="preview-tools">
+                <button onclick="zoomOut()">➖</button>
+                <span id="zoomLevel">100%</span>
+                <button onclick="zoomIn()">➕</button>
+                <button onclick="downloadFromPreview()">⬇ Download</button>
+                <button onclick="closePreview()">✕</button>
+            </div>
+        </div>
+
+        <iframe id="previewFrame"></iframe>
+
+    </div>
+</div>
+</div>
+<script src="js/auth.js"></script>
+</body>
+</html>
