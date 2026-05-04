@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PayrollPro | Enterprise Settings</title>
+    <link rel="stylesheet" href="css/app.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+<div class="app">
+    <!-- SIDEBAR (Your existing - unchanged) -->
+    <aside class="sidebar">
+        <div class="logo">
+            <span>💼</span>
+            <h2>PayrollPro</h2>
+            <p>Enterprise Edition</p>
+        </div>
+        <nav class="menu">
+            <a href="dashboard.html"><i class="icon">📊</i> Dashboard</a>
+            <a href="employees.html"><i class="icon">👥</i> Employees</a>
+            <a href="payroll.html"><i class="icon">💰</i> Payroll</a>
+            <a href="departments.html"><i class="icon">🏢</i> Departments</a>
+            <a href="reports.html"><i class="icon">📑</i> Reports</a>
+            <a href="documents.html"><i class="icon">📁</i> Documents</a>
+            <a href="settings.html" class="active"><i class="icon">⚙️</i> Settings</a>
+        </nav>
+        <div class="user">
+            <div class="avatar">SP</div>
+            <div>
+                <h4>Shivani Pandey</h4>
+                <span>System Administrator</span>
+            </div>
+        </div>
+    </aside>
+
+    <!-- MAIN SETTINGS PAGE -->
+    <main class="main settings-main">
+        <!-- HERO TOPBAR -->
+        <div class="topbar gradient-bg">
+            <div class="topbar-content">
+                <div class="topbar-left">
+                    <h1><i class="fas fa-cogs"></i> Enterprise Control Center</h1>
+                    <p>Global configuration • Compliance • System optimization</p>
+                </div>
+                <div class="status-hub">
+                    <div class="status-indicator">
+                        <span class="status-dot online"></span>
+                        <span>Live Sync</span>
+                    </div>
+                    <div class="config-status" id="configStatus">
+                        <i class="fas fa-shield-check"></i>
+                        <span>Configuration Valid</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="settings-layout">
+            <!-- LEFT COLUMN - Primary Settings -->
+            <div class="settings-column primary">
+                
+                <!-- COMPANY PROFILE -->
+                <section class="card glassmorphism company-card active-tab" data-tab="company">
+                    <div class="card-header">
+                        <div class="card-icon">🏢</div>
+                        <h2>Company Profile</h2>
+                        <p class="muted">Organization identity & compliance details</p>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <label><i class="fas fa-building"></i> Company Name</label>
+                            <input id="companyName" type="text" placeholder="Enter legal company name" required>
+                        </div>
+                        <div class="input-row">
+                            <div class="input-group half">
+                                <label><i class="fas fa-id-card"></i> Tax ID / GST</label>
+                                <input id="taxId" type="text" placeholder="22AABCU1234R1Z5">
+                            </div>
+                            <div class="input-group half">
+                                <label><i class="fas fa-map-pin"></i> Country</label>
+                                <select id="country">
+                                    <option value="India">India</option>
+                                    <option value="USA">USA</option>
+                                    <option value="UK">UK</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label><i class="fas fa-map-marker-alt"></i> Registered Address</label>
+                            <textarea id="companyAddress" rows="3" placeholder="Full registered office address"></textarea>
+                        </div>
+                        <div class="input-row">
+                            <div class="input-group half">
+                                <label><i class="fas fa-phone"></i> Contact Number</label>
+                                <input id="contactNumber" type="tel" placeholder="+91 9876543210">
+                            </div>
+                            <div class="input-group half">
+                                <label><i class="fas fa-envelope"></i> HR Email</label>
+                                <input id="hrEmail" type="email" placeholder="hr@company.com">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PAYROLL CONFIGURATION -->
+                <section class="card glassmorphism payroll-card" data-tab="payroll">
+                    <div class="card-header">
+                        <div class="card-icon">💰</div>
+                        <h2>Payroll Engine</h2>
+                        <p class="muted">Processing rules • Deduction matrix • Automation</p>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-row">
+                            <div class="input-group half">
+                                <label><i class="fas fa-calendar-alt"></i> Pay Cycle</label>
+                                <select id="payCycle">
+                                    <option value="Monthly">Monthly (1st)</option>
+                                    <option value="Bi-Weekly">Bi-Weekly</option>
+                                    <option value="Weekly">Weekly</option>
+                                </select>
+                            </div>
+                            <div class="input-group half">
+                                <label><i class="fas fa-clock"></i> Processing Date</label>
+                                <select id="payCutoff">
+                                    <option value="Last day of month">Last Day</option>
+                                    <option value="7th of month">7th</option>
+                                    <option value="15th of month">15th</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="input-row">
+                            <div class="input-group half">
+                                <label><i class="fas fa-calendar-day"></i> Attendance Type</label>
+                                <select id="workDays">
+                                    <option value="Calendar Days">Calendar Days</option>
+                                    <option value="Working Days">Working Days Only</option>
+                                </select>
+                            </div>
+                            <div class="input-group half">
+                                <label><i class="fas fa-calculator"></i> Deduction Mode</label>
+                                <select id="deductionMode">
+                                    <option value="Auto Calculate">Auto Calculate</option>
+                                    <option value="Manual Review">Manual Review</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="statutory-switches">
+                            <div class="toggle-group">
+                                <label class="toggle-switch">
+                                    <input id="autoRunPayroll" type="checkbox" checked>
+                                    <span class="toggle-slider"></span>
+                                    <span class="toggle-label">Auto-generate Payroll</span>
+                                </label>
+                            </div>
+                            <div class="toggle-group">
+                                <label class="toggle-switch">
+                                    <input id="payslipEmail" type="checkbox" checked>
+                                    <span class="toggle-slider"></span>
+                                    <span class="toggle-label">Email Payslips</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- RIGHT COLUMN - Status & Quick Actions -->
+            <div class="settings-column secondary">
+                
+                <!-- COMPLIANCE STATUS -->
+                <section class="card glassmorphism status-card active-tab" data-tab="status">
+                    <div class="card-header">
+                        <div class="card-icon">⚖️</div>
+                        <h2>Compliance Dashboard</h2>
+                        <p class="muted">Real-time statutory & system status</p>
+                    </div>
+                    <div class="status-hub">
+                        <div class="status-grid">
+                            <div class="status-item success">
+                                <i class="fas fa-check-circle"></i>
+                                <span>PF Compliance</span>
+                                <div class="status-badge">12%</div>
+                            </div>
+                            <div class="status-item success">
+                                <i class="fas fa-shield-alt"></i>
+                                <span>ESIC Active</span>
+                                <div class="status-badge success">Active</div>
+                            </div>
+                            <div class="status-item warning">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <span>PT Setup</span>
+                                <div class="status-badge warning">Pending</div>
+                            </div>
+                            <div class="status-item success">
+                                <i class="fas fa-file-invoice"></i>
+                                <span>TDS Configured</span>
+                                <div class="status-badge">10-30%</div>
+                            </div>
+                        </div>
+                        <div class="system-metrics">
+                            <div class="metric-item">
+                                <span>Last Backup</span>
+                                <strong>Today 02:30 AM</strong>
+                            </div>
+                            <div class="metric-item">
+                                <span>Audit Logs</span>
+                                <strong class="success">✅ Active</strong>
+                            </div>
+                            <div class="metric-item">
+                                <span>API Rate Limit</span>
+                                <strong>5000/min</strong>
+                            </div>
+                            <div class="metric-item">
+                                <span>Database Sync</span>
+                                <strong class="success">✅ Live</strong>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- QUICK ACTIONS -->
+                <section class="card glassmorphism actions-card">
+                    <div class="card-header">
+                        <div class="card-icon">⚡</div>
+                        <h2>Quick Actions</h2>
+                        <p class="muted">One-click system operations</p>
+                    </div>
+                    <div class="action-buttons">
+                        <button class="quick-action-btn primary" id="testConfig">
+                            <i class="fas fa-rocket"></i>
+                            <span>Test Full Config</span>
+                        </button>
+                        <button class="quick-action-btn secondary" id="exportConfig">
+                            <i class="fas fa-download"></i>
+                            <span>Export Settings</span>
+                        </button>
+                        <button class="quick-action-btn outline" id="importConfig">
+                            <i class="fas fa-upload"></i>
+                            <span>Import Config</span>
+                        </button>
+                        <button class="quick-action-btn danger" id="resetAll">
+                            <i class="fas fa-undo"></i>
+                            <span>Factory Reset</span>
+                        </button>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <!-- GLOBAL ACTION BAR -->
+        <div class="action-bar">
+            <button id="saveSettings" class="btn gradient-btn large">
+                <i class="fas fa-save"></i>
+                <span>Save All Changes</span>
+                <span class="btn-badge">Live</span>
+            </button>
+            <button id="discardChanges" class="btn secondary large">
+                <i class="fas fa-times-circle"></i>
+                Discard Changes
+            </button>
+        </div>
+
+        <!-- TOAST NOTIFICATION -->
+        <div id="toastNotification" class="toast hidden">
+            <i class="fas fa-circle-check"></i>
+            <span id="toastMessage"></span>
+        </div>
+
+        <!-- LOADING OVERLAY -->
+        <div id="loadingOverlay" class="loading-overlay hidden">
+            <div class="loading-spinner"></div>
+            <span>Saving Configuration...</span>
+        </div>
+    </main>
+</div>
+
+
+<script src="js/settings.js" defer></script>
+</body>
+</html>
