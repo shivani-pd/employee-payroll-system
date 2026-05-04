@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>PayrollPro | Reports</title>
+    <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+
+<div class="app">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="logo">
+            <span>💼</span>
+            <h2>PayrollPro</h2>
+            <p>Management System</p>
+        </div>
+
+        <nav class="menu">
+            <a href="dashboard.html">📊 Dashboard</a>
+            <a href="employees.html">👥 Employees</a>
+            <a href="payroll.html">💰 Payroll</a>
+            <a href="departments.html">🏢 Departments</a>
+            <a href="reports.html" class="active">📈 Reports</a>
+            <a href="documents.html">📁 Documents</a>
+            <a href="settings.html">⚙ Settings</a>
+        </nav>
+
+        <div class="user">
+            <div class="avatar">SP</div>
+            <div>
+                <h4>Shivani</h4>
+                <span>HR Manager</span>
+            </div>
+        </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main">
+
+        <!-- TOPBAR -->
+        <div class="topbar">
+            <div>
+                <h1>Reports</h1>
+                <p>Payroll, workforce & financial analytics</p>
+            </div>
+
+            <div class="actions">
+    <select id="yearSelect"></select>
+    <select id="monthSelect"></select>
+
+    <select id="deptSelect">
+        <option>All Departments</option>
+        <option>Engineering</option>
+        <option>Design</option>
+        <option>Finance</option>
+        <option>HR</option>
+        <option>Marketing</option>
+        <option>Operations</option>
+        <option>IT</option>
+        <option>Sales</option>
+    </select>
+
+    <button id="exportCsvBtn" class="btn">📄 Export CSV</button>
+    <button id="downloadPdfBtn" class="btn primary">⬇ Download PDF</button>
+</div>
+
+        </div>
+
+        <!-- REPORT KPIs -->
+        <section class="stats">
+            <div class="card">
+                <p>Total Payroll Cost</p>
+                <h2>$479,000</h2>
+                <span class="success">+6.4%</span>
+            </div>
+
+            <div class="card">
+                <p>Average Salary</p>
+                <h2>$59,875</h2>
+                <span>Across workforce</span>
+            </div>
+
+            <div class="card">
+                <p>Attrition Rate</p>
+                <h2>1.2%</h2>
+                <span class="success">Stable</span>
+            </div>
+
+            <div class="card">
+                <p>Compliance Score</p>
+                <h2>100%</h2>
+                <span class="success">No issues</span>
+            </div>
+        </section>
+
+        <!-- PAYROLL SUMMARY TABLE -->
+        <section class="card table-card">
+            <h2>📊 Department-wise Payroll</h2>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Department</th>
+                        <th>Employees</th>
+                        <th>Total Salary</th>
+                        <th>Budget Used</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Engineering</td>
+                        <td>12</td>
+                        <td>$180,000</td>
+                        <td>88%</td>
+                        <td><span class="badge leave">High</span></td>
+                    </tr>
+                    <tr>
+                        <td>Design</td>
+                        <td>5</td>
+                        <td>$75,000</td>
+                        <td>65%</td>
+                        <td><span class="badge active">Normal</span></td>
+                    </tr>
+                    <tr>
+                        <td>Marketing</td>
+                        <td>8</td>
+                        <td>$110,000</td>
+                        <td>82%</td>
+                        <td><span class="badge leave">Watch</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- ADVANCED ANALYTICS -->
+        <section class="advanced-grid">
+            <div class="card">
+                <h3>📈 Payroll Trends</h3>
+                <ul class="info-list">
+                    <li>📊 MoM Growth: +6.4%</li>
+                    <li>📉 YoY Growth: +12.8%</li>
+                    <li>⏱ Overtime Impact: $4,250</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3>👥 Workforce Analytics</h3>
+                <ul class="info-list">
+                    <li>🆕 New Joiners (30d): 2</li>
+                    <li>🚪 Exits (30d): 1</li>
+                    <li>🏖 Avg Leave Usage: 3.2 days</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3>⚖ Compliance Reports</h3>
+                <ul class="info-list">
+                    <li>🧾 PF / ESIC: Filed</li>
+                    <li>📄 TDS: Filed</li>
+                    <li>🔐 Audit Status: Clean</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- REPORT ACTIONS -->
+        <section class="card">
+    <h2>📂 Available Reports</h2>
+    <ul class="info-list" id="availableReports">
+        <li data-report="salary-register">📄 Salary Register</li>
+        <li data-report="department-cost">📊 Department Cost Report</li>
+        <li data-report="tax-statutory">🧾 Tax & Statutory Report</li>
+        <li data-report="employee-comp">👥 Employee Compensation Summary</li>
+    </ul>
+</section>
+
+
+    </main>
+</div>
+
+
+<script src="js/reports.js"></script>
+</body>
+</html>

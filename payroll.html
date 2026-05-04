@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>PayrollPro | Payroll</title>
+    <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+<div class="app">
+    <!-- SIDEBAR (unchanged) -->
+    <aside class="sidebar">
+        <div class="logo">
+            <span>💼</span>
+            <h2>PayrollPro</h2>
+            <p>Management System</p>
+        </div>
+        <nav class="menu">
+            <a href="dashboard.html">📊 Dashboard</a>
+            <a href="employees.html">👥 Employees</a>
+            <a href="payroll.html" class="active">💰 Payroll</a>
+            <a href="departments.html">🏢 Departments</a>
+            <a href="reports.html">📑 Reports</a>
+            <a href="documents.html">📁 Documents</a>
+            <a href="settings.html">⚙ Settings</a>
+        </nav>
+        <div class="user">
+            <div class="avatar">SP</div>
+            <div>
+                <h4>Shivani</h4>
+                <span>HR Manager</span>
+            </div>
+        </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main">
+        <!-- TOPBAR (unchanged) -->
+        <div class="topbar">
+            <div>
+                <h1>Payroll</h1>
+                <p>End-to-end payroll processing & compliance</p>
+            </div>
+            <div class="actions">
+                <div class="payroll-period-wrapper">
+    <label class="period-label">Payroll Period</label>
+    <select id="payrollPeriod" class="period-select">
+        <!-- options JS se aayenge -->
+    </select>
+</div>
+                <button class="btn" id="createPayrollBtn">➕ Create Payroll</button>
+                <button class="btn" id="generatePayslipsBtn">📄 Generate Payslips</button>
+                <button class="btn primary" id="runPayrollBtn">▶ Run Payroll</button>
+            </div>
+        </div>
+
+        <!-- PAYROLL KPIs (unchanged) -->
+        <section class="stats">
+            <div class="card">💵 Net Pay<br><strong id="kpiNetPay">₹0</strong></div>
+            <div class="card">🎁 Bonuses<br><strong id="kpiBonus">₹0</strong></div>
+            <div class="card">📉 Deductions<br><strong id="kpiDeduction">₹0</strong></div>
+            <div class="card">⚖ Compliance<br><strong id="kpiCompliance">100%</strong></div>
+        </section>
+
+        <!-- PAYROLL BREAKDOWN (unchanged) -->
+        <section class="card">
+            <h2>📊 Payroll Breakdown</h2>
+            <ul class="info-list">
+                <li>🏦 Basic Salary: <strong id="bdBasic">₹0</strong></li>
+                <li>➕ Allowances: <strong id="bdAllowance">₹0</strong></li>
+                <li>🎁 Incentives: <strong id="bdIncentive">₹0</strong></li>
+                <li>🧾 Tax & Statutory: <strong id="bdTax">₹0</strong></li>
+            </ul>
+        </section>
+
+        <!-- FIXED: PAYROLL TABLE WITH PROPER STRUCTURE -->
+        <section class="card table-card">
+            <h2>🧾 Employee Payroll</h2>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Employee</th>
+                            <th>Department</th>
+                            <th>Basic</th>
+                            <th>Allowances</th>
+                            <th>Deductions</th>
+                            <th>Status</th>
+                            <th>Net Pay</th>
+                            <th>Payslip</th>
+                        </tr>
+                    </thead>
+                    <tbody id="payrollTableBody">
+                        <!-- Data loads here -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- PAYROLL ACTIONS (unchanged) -->
+        <section class="advanced-grid">
+            <div class="card">
+                <h3>⚙ Payroll Actions</h3>
+                <ul>
+    <li>
+  <button class="action-btn" id="downloadRegisterBtn">
+    📄 Download Salary Register
+  </button>
+</li>
+
+<li>
+  <button class="action-btn" id="generateTaxBtn">
+    🧾 Generate Tax Sheet
+  </button>
+</li>
+
+<li>
+  <button class="action-btn" id="bankTransferBtn">
+    🏦 Bank Transfer File
+  </button>
+</li>
+
+</ul>
+
+            </div>
+            <div class="card">
+    <h3>⚖ Statutory Compliance</h3>
+    <ul>
+        <li>
+            <button class="action-btn">📄 PF / ESIC : Filed</button>
+        </li>
+        <li>
+            <button class="action-btn">🧾 TDS : Filed</button>
+        </li>
+        <li>
+            <button class="action-btn">🔐 Audit Log : OK</button>
+        </li>
+    </ul>
+</div>
+
+            <div class="card">
+    <h3>🚨 Payroll Alerts</h3>
+    <ul>
+        <li>
+            <button class="action-btn">⚠ Pending Salaries</button>
+        </li>
+        <li>
+            <button class="action-btn">⏱ Overtime Anomalies</button>
+        </li>
+        <li>
+            <button class="action-btn">📉 Budget Threshold Warnings</button>
+        </li>
+    </ul>
+</div>
+
+        </section>
+    </main>
+</div>
+
+<!-- SCRIPTS -->
+ 
+
+<script src="js/payroll.js"></script>
+</body>
+</html>

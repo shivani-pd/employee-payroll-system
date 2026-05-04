@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PayrollPro | Employees</title>
+    <link rel="stylesheet" href="css/app.css">
+    <!-- Remove jsPDF/html2canvas - not needed with new print system -->
+</head>
+<body>
+<div class="app">
+    <!-- SIDEBAR (PERFECT) -->
+    <aside class="sidebar">
+        <div class="logo">
+            <span>💼</span>
+            <h2>PayrollPro</h2>
+            <p>Management System</p>
+        </div>
+        <nav class="menu">
+            <a href="dashboard.html">📊 Dashboard</a>
+            <a href="employees.html" class="active">👥 Employees</a>
+            <a href="payroll.html">💰 Payroll</a>
+            <a href="departments.html">🏢 Departments</a>
+            <a href="reports.html">📑 Reports</a>
+            <a href="documents.html">📁 Documents</a>
+            <a href="settings.html">⚙ Settings</a>
+        </nav>
+        <div class="user">
+            <div class="avatar">SP</div>
+            <div>
+                <h4>Shivani</h4>
+                <span>HR Manager</span>
+            </div>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main">
+        <!-- TOP BAR (PERFECT) -->
+        <div class="topbar">
+            <div>
+                <h1>👥 Employees</h1>
+                <p>Total Workforce: <span id="totalCount">0</span></p>
+            </div>
+            <!-- STATUS FIELD - ADD THIS -->
+
+
+            <div class="actions">
+                <input type="text" id="searchInput" placeholder="🔍Search by name or employee ID"
+       title="Search employees by name or ID"/>
+                <select id="statusFilter">
+                    <option value="ALL">All Status</option>
+                    <option value="ACTIVE">Active Only</option>
+                    <option value="INACTIVE">Inactive Only</option>
+                </select>
+                <button class="btn primary" id="addEmployeeBtnTop">➕ Add Employee</button>
+                <button class="btn" id="exportCsvBtn">⬇ Export CSV</button>
+            </div>
+        </div>
+
+        <!-- ✅ PERFECT 5-FIELD FORM WITH VALIDATION -->
+        <section class="card">
+            <h2>➕ Add / Edit Employee</h2>
+            <div class="form-grid">
+                <!-- Name Field -->
+                <div class="form-group">
+                    <input type="text" id="employeeName" placeholder="👤 Enter Full Name *" required maxlength="100">
+                    <small class="error-msg" id="nameError"></small>
+                </div>
+
+                <!-- Email Field -->
+                <div class="form-group">
+                    <input type="email" id="employeeEmail" placeholder="📧 Email (optional)">
+                    <small class="error-msg" id="emailError"></small>
+                </div>
+
+                <!-- Salary Field -->
+                <div class="form-group">
+                    <input type="text" id="employeeSalary" placeholder="💰 Monthly Salary (₹)" required>
+                    <small class="error-msg" id="salaryError"></small>
+                </div>
+
+                <!-- Department Field -->
+                <div class="form-group">
+                    <select id="employeeDepartment" required>
+                        <option value="">🏢 Select Department *</option>
+                        <option value="IT">💻 IT</option>
+                        <option value="HR">👥 HR</option>
+                        <option value="Finance">💰 Finance</option>
+                        <option value="Marketing">📈 Marketing</option>
+                        <option value="Operations">⚙️ Operations</option>
+                        <option value="Engineering">🏗 Engineering</option>
+                        <option value="Sales">🛒 Sales</option>
+                        <option value="Design">🎨 Design</option>
+
+                    </select>
+                    <small class="error-msg" id="deptError"></small>
+                </div>
+
+                <!-- Position Field -->
+                <div class="form-group">
+                    <select id="employeePosition" required>
+                        <option value="">🎯 Select Position *</option>
+                        <option value="Junior Developer">Junior Developer</option>
+                        <option value="Developer">Developer</option>
+                        <option value="Senior Developer">Senior Developer</option>
+                        <option value="Team Lead">Team Lead</option>
+                        <option value="Manager">Manager</option>
+                        <option value="Director">Director</option>
+                    </select>
+                    <small class="error-msg" id="positionError"></small>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="add-actions">
+                    <button class="btn primary" id="addEmployeeBtn">✅ Add Employee</button>
+                    <button class="btn secondary" id="cancelEditBtn" style="display:none">❌ Cancel Edit</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ✅ PERFECT 7-COLUMN TABLE -->
+        <section class="card table-card">
+            <h2>📋 Employee Directory</h2>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Department</th>
+                            <th>Position</th>
+                            <th>Net Salary</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="employeeTableBody">
+                        <tr>
+                            <td colspan="7" style="text-align: center; padding: 40px; color: #94a3b8;">
+                                Loading employees...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+</div>
+
+<!-- ✅ ENHANCED MODAL (DARK THEME) -->
+<div id="detailsModal" class="modal" style="display:none;">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h2 id="modalTitle">Employee Details</h2>
+        <div id="modalBody" class="employee-details">
+            <!-- Dynamic content loaded by JavaScript -->
+        </div>
+    </div>
+</div>
+
+<!-- INLINE CSS FOR FORM VALIDATION & MODAL -->
+<style>
+/* Form Groups & Validation */
+.form-group {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.error-msg {
+    color: #ef4444;
+    font-size: 12px;
+    margin-top: 4px;
+    min-height: 16px;
+    display: block;
+}
+
+.form-group input.error,
+.form-group select.error {
+    border-color: #ef4444 !important;
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2) !important;
+}
+
+.form-group input.success,
+.form-group select.success {
+    border-color: #10b981 !important;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2) !important;
+}
+
+/* Table Wrapper */
+.table-wrapper {
+    overflow-x: auto;
+    border-radius: 20px;
+    box-shadow: inset 0 0 0 1px rgba(168, 85, 247, 0.2);
+}
+
+/* Modal Enhancements */
+.modal-content {
+    background: linear-gradient(180deg, rgba(15, 23, 42, 0.95), rgba(8, 12, 24, 0.98)) !important;
+    color: #e5e7eb !important;
+    margin: 5% auto;
+    padding: 30px;
+    border-radius: 24px;
+    width: 90%;
+    max-width: 800px;
+    max-height: 90vh;
+    overflow-y: auto;
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(168, 85, 247, 0.3);
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
+}
+
+.close {
+    color: #94a3b8 !important;
+    float: right;
+    font-size: 32px;
+    font-weight: bold;
+    cursor: pointer;
+    position: relative;
+    top: -10px;
+}
+
+.close:hover {
+    color: #ef4444 !important;
+}
+
+.detail-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 16px 0;
+    border-bottom: 1px solid rgba(148, 163, 184, 0.15);
+    color: #e5e7eb;
+}
+
+.detail-label { 
+    font-weight: 600; 
+    color: #a855f7; 
+    min-width: 140px;
+}
+
+.detail-value { 
+    color: #e5e7eb; 
+    text-align: right;
+    font-weight: 500;
+}
+
+.salary-breakdown {
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(34, 197, 94, 0.1));
+    padding: 24px;
+    border-radius: 16px;
+    margin: 24px 0;
+    border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
+.status-active {
+    color: #10b981 !important;
+    font-weight: 700;
+}
+
+.status-inactive {
+    color: #ef4444 !important;
+    font-weight: 700;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .form-grid {
+        grid-template-columns: 1fr !important;
+    }
+    .add-actions {
+        justify-content: center !important;
+    }
+    .detail-row {
+        flex-direction: column !important;
+        gap: 8px;
+    }
+}
+</style>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const API_BASE = "http://localhost:8080/api/employees";
+    
+    // All DOM elements
+    const tableBody = document.getElementById("employeeTableBody");
+    const totalCount = document.getElementById("totalCount");
+    const searchInput = document.getElementById("searchInput");
+    const statusFilter = document.getElementById("statusFilter");
+    const nameInput = document.getElementById("employeeName");
+    const emailInput = document.getElementById("employeeEmail");
+    const salaryInput = document.getElementById("employeeSalary");
+    const deptInput = document.getElementById("employeeDepartment");
+    const positionInput = document.getElementById("employeePosition");
+    const addBtn = document.getElementById("addEmployeeBtn");
+    const cancelBtn = document.getElementById("cancelEditBtn");
+    const addBtnTop = document.getElementById("addEmployeeBtnTop");
+    const exportBtn = document.getElementById("exportCsvBtn");
+    const modal = document.getElementById("detailsModal");
+    const modalTitle = document.getElementById("modalTitle");
+    const modalBody = document.getElementById("modalBody");
+
+    let editingId = null;
+    let allEmployees = [];
+
+    // Utilities
+    function formatRupees(amount) {
+        return new Intl.NumberFormat('en-IN').format(Number(amount || 0));
+    }
+
+    function getStatusClass(status) {
+        return status === 'ACTIVE' ? 'status-active' : 'status-inactive';
+    }
+
+    // API Call
+    async function apiCall(endpoint, options = {}) {
+        try {
+            const response = await fetch(`${API_BASE}${endpoint}`, {
+                method: options.method || 'GET',
+                headers: { 'Content-Type': 'application/json' },
+                ...(options.body && { body: JSON.stringify(options.body) })
+            });
+            return response.ok ? await response.json() : [];
+        } catch {
+            console.error('API Error');
+            return [];
+        }
+    }
+
+    // Load employees with filters
+    async function loadEmployees(searchTerm = '', statusFilterValue = 'ALL') {
+        let employees = await apiCall('');
+        
+        if (searchTerm.trim()) {
+            employees = employees.filter(emp => 
+                (emp.name || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+                (emp.department || '').toLowerCase().includes(searchTerm.toLowerCase())
+            );
+        }
+        
+        if (statusFilterValue !== 'ALL') {
+            employees = employees.filter(emp => (emp.status || 'ACTIVE') === statusFilterValue);
+        }
+        
+        allEmployees = Array.isArray(employees) ? employees : [];
+        displayEmployees(allEmployees);
+        if (totalCount) totalCount.textContent = allEmployees.length;
+    }
+
+    // ✅ FIXED TABLE - Shows Status + Working View Button
+    function displayEmployees(employees) {
+        if (!tableBody) return;
+        
+        tableBody.innerHTML = employees.length ? 
+            employees.map(emp => `
+                <tr>
+                    <td>EMP${String(emp.id || 0).padStart(3, '0')}</td>
+                    <td>${emp.name || 'N/A'}</td>
+                    <td><span class="dept-badge">${emp.department || 'N/A'}</span></td>
+                    <td>${emp.position || 'N/A'}</td>
+                    <td>₹<strong>${formatRupees(emp.netSalary || emp.salary || 0)}</strong></td>
+                    <td>
+                        <span class="badge status-badge ${getStatusClass(emp.status || 'ACTIVE')}">
+                            ${(emp.status || 'ACTIVE').toUpperCase()}
+                        </span>
+                    </td>
+                    <td>
+                        <button class="btn btn-sm view-btn" data-emp-id="${emp.id}">👁️ View</button>
+                        <button class="btn btn-sm edit-btn" data-emp-id="${emp.id}">✏️</button>
+                        <button class="btn btn-sm payslip-btn" data-emp-id="${emp.id}">💰</button>
+                        <button class="btn btn-sm delete-btn" data-emp-id="${emp.id}">🗑️</button>
+                    </td>
+                </tr>
+            `).join('') : 
+            '<tr><td colspan="7" style="text-align:center;padding:40px;color:#94a3b8">No employees found</td></tr>';
+        
+        attachEventListeners();
+    }
+
+    // ✅ ATTACH EVENT LISTENERS - View button works!
+    function attachEventListeners() {
+        // 👁️ VIEW BUTTON - Shows complete details
+        document.querySelectorAll('.view-btn').forEach(btn => {
+            btn.onclick = () => showEmployeeDetails(parseInt(btn.dataset.empId));
+        });
+        
+        document.querySelectorAll('.edit-btn').forEach(btn => {
+            btn.onclick = () => editEmployee(parseInt(btn.dataset.empId));
+        });
+        
+        document.querySelectorAll('.delete-btn').forEach(btn => {
+            btn.onclick = () => {
+                if (confirm('Mark as INACTIVE?')) {
+                    deleteEmployee(parseInt(btn.dataset.empId));
+                }
+            };
+        });
+    }
+
+    // 🔥 COMPLETE EMPLOYEE DETAILS MODAL
+    async function showEmployeeDetails(id) {
+        console.log("👁️ Showing details for ID:", id);
+        
+        const emp = await apiCall(`/${id}`);
+        if (!emp) {
+            alert('Employee not found!');
+            return;
+        }
+
+        // Update modal title
+        modalTitle.textContent = `EMP${String(emp.id || 0).padStart(3, '0')} - ${emp.name || 'N/A'}`;
+
+        // ✅ FULL EMPLOYEE DETAILS
+        modalBody.innerHTML = `
+            <div style="padding: 25px;">
+                <!-- Profile Header -->
+                <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; border-radius: 20px; text-align: center; margin-bottom: 30px;">
+                    <h2 style="margin: 0 0 15px 0; font-size: 28px;">${emp.name || 'N/A'}</h2>
+                    <div style="font-size: 16px; opacity: 0.95;">
+                        ${emp.position || 'N/A'} | ${emp.department || 'N/A'} | 
+                        <span class="status-${getStatusClass(emp.status || 'ACTIVE')}">
+                            ${emp.status || 'ACTIVE'}
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Personal Info -->
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; margin-bottom: 30px;">
+                    <div style="padding: 25px; background: #f8fafc; border-radius: 16px; border-left: 5px solid #3b82f6;">
+                        <h4 style="color: #3b82f6; margin-bottom: 15px;">📋 Personal Information</h4>
+                        <div style="font-size: 15px; line-height: 1.7;">
+                            <div><strong>ID:</strong> EMP${String(emp.id || 0).padStart(3, '0')}</div>
+                            <div><strong>Name:</strong> ${emp.name || 'N/A'}</div>
+                            <div><strong>Email:</strong> ${emp.email || 'Not provided'}</div>
+                        </div>
+                    </div>
+                    
+                    <div style="padding: 25px; background: #f8fafc; border-radius: 16px; border-left: 5px solid #10b981;">
+                        <h4 style="color: #10b981; margin-bottom: 15px;">🏢 Employment Details</h4>
+                        <div style="font-size: 15px; line-height: 1.7;">
+                            <div><strong>Department:</strong> ${emp.department || 'N/A'}</div>
+                            <div><strong>Position:</strong> ${emp.position || 'N/A'}</div>
+                            <div><strong>Status:</strong> 
+                                <span style="padding: 8px 16px; border-radius: 20px; font-weight: 700; font-size: 14px; 
+                                    ${emp.status === 'ACTIVE' ? 'background: #d1fae5; color: #065f46' : 'background: #fee2e2; color: #991b1b'}">
+                                    ${emp.status || 'ACTIVE'}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Salary Breakdown -->
+                <div style="background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); padding: 30px; border-radius: 24px; border: 3px solid #10b981; margin-bottom: 30px;">
+                    <h3 style="color: #166534; text-align: center; margin-bottom: 25px;">💰 Salary Information</h3>
+                    <div style="font-size: 18px; text-align: center;">
+                        <div style="font-size: 28px; font-weight: 800; color: #059669; margin-bottom: 10px;">
+                            ₹${formatRupees(emp.netSalary || emp.salary || 0)}
+                        </div>
+                        <div style="color: #6b7280;">Monthly Net Salary</div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+                    <button onclick="editEmployee(${emp.id})" style="flex: 1; padding: 15px; background: linear-gradient(135deg, #3b82f6, #1d4ed8); color: white; border: none; border-radius: 12px; font-weight: 700; cursor: pointer; min-width: 140px;">
+                        ✏️ Edit Details
+                    </button>
+                    <button onclick="generatePayslip(${emp.id})" style="flex: 1; padding: 15px; background: linear-gradient(135deg, #10b981, #059669); color: white; border: none; border-radius: 12px; font-weight: 700; cursor: pointer; min-width: 140px;">
+                        💰 Payslip
+                    </button>
+                    <button onclick="closeModal()" style="flex: 1; padding: 15px; background: #f3f4f6; color: #374151; border: none; border-radius: 12px; font-weight: 700; cursor: pointer; min-width: 140px;">
+                        ❌ Close
+                    </button>
+                </div>
+            </div>
+        `;
+        
+        modal.style.display = 'block';
+        document.body.style.overflow = 'hidden'; // Prevent background scroll
+    }
+
+    // Close modal
+    window.closeModal = function() {
+        if (modal) {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+    };
+
+    // Other functions (edit, delete, etc.) - simplified
+    window.editEmployee = editEmployee;
+    window.generatePayslip = async function(id) {
+        const emp = await apiCall(`/${id}`);
+        alert(`📄 Payslip for ${emp.name} - Monthly: ₹${formatRupees(emp.salary || 0)}`);
+    };
+    
+    async function editEmployee(id) {
+        const emp = await apiCall(`/${id}`);
+        if (!emp) return;
+        editingId = id;
+        nameInput.value = emp.name || '';
+        emailInput.value = emp.email || '';
+        salaryInput.value = formatRupees(emp.salary || 0);
+        deptInput.value = emp.department || '';
+        positionInput.value = emp.position || '';
+        addBtn.textContent = '✅ Update Employee';
+        cancelBtn.style.display = 'inline-block';
+        closeModal();
+        document.querySelector('.card')?.scrollIntoView({behavior: 'smooth'});
+    }
+
+    async function deleteEmployee(id) {
+        await apiCall(`/${id}`, { method: 'DELETE' });
+        loadEmployees(searchInput?.value || '', statusFilter?.value || 'ALL');
+        alert('✅ Employee marked INACTIVE');
+    }
+
+    // Form handlers
+    if (addBtn) {
+        addBtn.onclick = async () => {
+            const payload = {
+                name: nameInput.value.trim(),
+                email: emailInput.value.trim(),
+                department: deptInput.value.trim(),
+                position: positionInput.value.trim(),
+                salary: Number(salaryInput.value.replace(/,/g, '')),
+                status: editingId ? allEmployees.find(e => e.id == editingId)?.status : 'ACTIVE'
+            };
+            
+            if (!payload.name || !payload.salary || !payload.department || !payload.position) {
+                return alert('Fill all required fields!');
+            }
+            
+            const method = editingId ? 'PUT' : 'POST';
+            await apiCall(editingId ? `/${editingId}` : '', { method, body: payload });
+            loadEmployees(searchInput?.value || '', statusFilter?.value || 'ALL');
+            resetForm();
+            alert(editingId ? 'Updated!' : 'Added!');
+        };
+    }
+
+    function resetForm() {
+        editingId = null;
+        if (nameInput) nameInput.value = '';
+        if (emailInput) emailInput.value = '';
+        if (salaryInput) salaryInput.value = '';
+        if (deptInput) deptInput.value = '';
+        if (positionInput) positionInput.value = '';
+        if (addBtn) addBtn.textContent = '✅ Add Employee';
+        if (cancelBtn) cancelBtn.style.display = 'none';
+    }
+
+    // Event listeners
+    if (cancelBtn) cancelBtn.onclick = resetForm;
+    if (addBtnTop) addBtnTop.onclick = () => document.querySelector('.card')?.scrollIntoView();
+    if (searchInput) searchInput.oninput = () => loadEmployees(searchInput.value, statusFilter?.value || 'ALL');
+    if (statusFilter) statusFilter.onchange = () => loadEmployees(searchInput?.value || '', statusFilter.value);
+    if (exportBtn) exportBtn.onclick = () => alert('📊 CSV Export - Add implementation');
+
+    // Close modal on outside click
+    window.onclick = (e) => { if (e.target === modal) closeModal(); };
+
+    // 🎉 INITIAL LOAD
+    loadEmployees();
+    console.log("✅ Employee details modal ready!");
+});
+</script>
+
+<script src="js/global-settings.js"></script>
+<script src="js/app.js"></script>
+<!-- 🔔 TOAST MESSAGE -->
+<div id="toast" class="toast"></div>
+
+</body>
+</html>
